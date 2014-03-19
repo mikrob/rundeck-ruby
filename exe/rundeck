@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'rundeck-ruby'
+action, url, key, job, *exec_args = ARGV
+
+abort "I can only deploy. Other stuff may be added later." unless action.downcase == "deploy"
+
+sess = Rundeck::Session.new(url, key)
+j = Rundeck::Job.find(sess, job)
+encoded_args = URI::encode(exec_args.join(' '))
+arg_query = encoded_args && "argString=#{encoded_args}"
+puts j.execute!(arg_query).url
