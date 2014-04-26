@@ -26,5 +26,9 @@ module Rundeck
     def projects
       Project.all(self)
     end
+
+    def project(name)
+      Project.find(self, name)
+    end
   end
 end
