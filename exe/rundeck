@@ -3,7 +3,7 @@
 require 'rundeck-ruby'
 action, url, key, job, *exec_args = ARGV
 
-abort "I can only deploy. Other stuff may be added later." unless action.downcase == "deploy"
+abort "I can only execute. Other stuff may be added later." unless action.downcase == "exec"
 
 sess = Rundeck::Session.new(url, key)
 j = Rundeck::Job.find(sess, job)

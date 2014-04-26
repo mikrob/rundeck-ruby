@@ -23,7 +23,7 @@ module Rundeck
       @jobs = result.map{|hash| Job.from_hash(session, hash)}
     end
 
-    def job_by_id(id)
+    def job(id)
       jobs.first{|j| j.id == id}
     end
   end

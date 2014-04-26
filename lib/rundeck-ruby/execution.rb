@@ -59,7 +59,7 @@ module Rundeck
       end
 
       def validate
-        raise "Invalid requested status: #{status}" unless self.class.valid_statuses.include?(status)
+        raise "Invalid requested status: #{status}" unless status.nil? || elf.class.valid_statuses.include?(status.to_s)
         raise "Invalid offset: #{offset}" unless offset.nil? || offset.to_i >= 0
         raise "Invalid max: #{max}" unless max.nil? || max.to_i >= 0
       end
