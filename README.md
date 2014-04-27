@@ -154,6 +154,8 @@ hostnames to log entries, which will be self-explanatory
 
 ## Contributing
 
+[![Code Climate](https://codeclimate.com/github/jonp/rundeck-ruby.png)](https://codeclimate.com/github/jonp/rundeck-ruby)
+
 The usual boilerplate:
 
 1. Fork it
@@ -180,4 +182,6 @@ rundeck exec -tail ...the other parameters...
 ```
 
 * Running ad-hoc commands, both in irb and with the binstub
-
+* Unit tests. While normally more of a TDDer than most, I find writing
+  tests for API wrappers tedious at best. It should probably be done,
+though.
