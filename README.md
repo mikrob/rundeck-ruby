@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/rundeck-ruby.svg)](http://badge.fury.io/rb/rundeck-ruby)
+
 # Rundeck-ruby
 
 Like the name says, these are ruby bindings for the rundeck API
