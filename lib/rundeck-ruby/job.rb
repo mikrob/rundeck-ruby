@@ -33,8 +33,11 @@ module Rundeck
       results.map{|hash| Execution.from_hash(session, hash)}
     end
 
-    def execute!(query_string = '')
-      query = "api/1/job/#{id}/run?#{query_string}".chomp("?")
+    def execute!(args_hash)
+      argstr=""
+      args_hash.map {|param, value| argstr += "-#{param} #{value} "}
+      encoded_args = URI::encode(argstr)
+      query = "api/1/job/#{id}/run?argString=#{encoded_args}"
       hash = session.get(query, 'result', 'executions', 'execution') || {}
       Execution.new(session, hash, self)
     end
