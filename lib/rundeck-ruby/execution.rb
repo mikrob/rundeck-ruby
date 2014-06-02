@@ -51,6 +51,34 @@ module Rundeck
       ret
     end
 
+    def wait title, interval, timeout
+      puts "[#{Time.now}] Waiting for #{title}"
+      start = Time.now.to_i
+      stop = start + timeout
+      while Time.now.to_i < stop
+             begin
+                     if yield
+                            puts "[#{Time.now}] ok !, duration #{Time.now.to_i - start}"
+                            return
+                     end
+             rescue
+             end
+             $stdout.write "[#{Time.now}] #{title} .\n"
+             $stdout.flush
+             sleep interval
+      end
+      raise "Timeout while waiting end of #{title}"
+    end
+
+    def wait_end interval, timeout
+      follow_execs = nil
+      wait "job #{@job.name}, execution #{@id} to be finished", interval, timeout do
+        follow_execs = @job.executions.select{|exec| exec.id == @id}
+        follow_execs.first.status != :running
+      end
+      follow_execs.first.output
+    end
+
     class QueryBuilder
       attr_accessor :status, :max, :offset
 
