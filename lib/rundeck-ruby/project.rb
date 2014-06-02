@@ -13,7 +13,11 @@ module Rundeck
 
     def initialize(session, hash)
       @session = session
-      @name = hash['name']
+      if hash.class != Array
+        @name = hash['name']
+      else
+        @name = hash[1]
+      end
     end
     attr_reader :session, :name
 
