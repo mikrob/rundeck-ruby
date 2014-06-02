@@ -101,9 +101,9 @@ job = Rundeck::Job.find(session, the_job_guid)
 
 ### Executing a job
 Once you have a job object, you can work with its executions. To execute
-the job, do this:
+the job, do this (new method with a hash):
 ```
-execution = job.execute!("some fancy job arguments")
+execution = job.execute!({'env' => 'integration', 'lease' => '22' })
 ```
 
 ### Finding executions
@@ -133,6 +133,24 @@ active_executions = Rundeck::Execution.where(project) do |query|
   query.offset = 100
 end
 ```
+
+
+You can also wait job execution end in a blocking way : 
+```
+log =  execution.wait_end 2, 30
+```
+where 2 is the interval to request the execution, and 30 the tieout
+the call will be blocking until the job end and will log thing such as : 
+
+```
+[2014-06-02 17:06:48 +0200] Waiting for job create_linux_ruby, execution 67 to be finished
+[2014-06-02 17:06:48 +0200] job create_linux_ruby, execution 67 to be finished .
+[2014-06-02 17:06:51 +0200] job create_linux_ruby, execution 67 to be finished .
+[2014-06-02 17:06:54 +0200] job create_linux_ruby, execution 67 to be finished .
+[2014-06-02 17:06:57 +0200] ok !, duration 9
+```
+
+At the end, it will return the log as a Hash of key, value corresponding to execution result, log time, log value etc ...
 
 To get the valid statuses, ask the query object:
 ```
