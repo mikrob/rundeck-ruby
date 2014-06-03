@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rundeck-ruby/version'
+require 'rundeck-ruby-client/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rundeck-ruby"
+  spec.name          = "rundeck-ruby-client"
   spec.version       = Rundeck::VERSION
-  spec.authors       = ["Jon Phillips"]
-  spec.email         = ["jphillips@biaprotect.com"]
+  spec.authors       = ["Jon Phillips", "Mikael Robert"]
+  spec.email         = ["jphillips@biaprotect.com", "mikaelrob@gmail.com"]
   spec.description   = %q{Ruby client for Rundeck API}
   spec.summary       = %q{For talking to Rundeck}
-  spec.homepage      = "https://github.com/jonp/rundeck-ruby"
+  spec.homepage      = "https://github.com/mikrob/rundeck-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

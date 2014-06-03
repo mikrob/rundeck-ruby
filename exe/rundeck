@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'rundeck-ruby'
+require 'rundeck-ruby-client'
 action, url, key, job, *exec_args = ARGV
 
 abort "I can only execute. Other stuff may be added later." unless action.downcase == "exec"
