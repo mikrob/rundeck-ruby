@@ -10,7 +10,7 @@ The usual stuff:
 
 Add this line to your application's Gemfile:
 
-    gem 'rundeck-ruby'
+    gem 'rundeck-ruby-client'
 
 And then execute:
 
@@ -58,7 +58,7 @@ prints out the url of the resulting execution.
 Connections to your rundeck server are handled with the `Session` class.
 Like so:
 ```
-require 'rundeck-ruby'
+require 'rundeck-ruby-client'
 session = Rundeck::Session('https://my.server', 'my token')
 ```
 That's it. You have a session.
