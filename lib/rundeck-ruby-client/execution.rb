@@ -1,3 +1,5 @@
+require 'timeout'
+
 module Rundeck
   class Execution
     def self.from_hash(session, hash)
@@ -51,32 +53,14 @@ module Rundeck
       ret
     end
 
-    def wait title, interval, timeout
-      puts "[#{Time.now}] Waiting for #{title}"
-      start = Time.now.to_i
-      stop = start + timeout
-      while Time.now.to_i < stop
-             begin
-                     if yield
-                            puts "[#{Time.now}] ok !, duration #{Time.now.to_i - start}"
-                            return
-                     end
-             rescue
-             end
-             $stdout.write "[#{Time.now}] #{title} .\n"
-             $stdout.flush
-             sleep interval
-      end
-      raise "Timeout while waiting end of #{title}"
-    end
-
+    # http request are done at each loop so, be nice with interval :)
     def wait_end interval, timeout
-      follow_execs = nil
-      wait "job #{@job.name}, execution #{@id} to be finished", interval, timeout do
-        follow_execs = @job.executions.select{|exec| exec.id == @id}
-        follow_execs.first.status != :running
+      Timeout.timeout(timeout) do
+        until Execution::find(@session, @id).status != :running do
+          sleep interval
+        end
       end
-      follow_execs.first.output
+      self.output
     end
 
     class QueryBuilder
