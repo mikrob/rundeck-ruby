@@ -1,4 +1,5 @@
 require 'timeout'
+require 'pp'
 
 module Rundeck
   class Execution
@@ -46,17 +47,24 @@ module Rundeck
       ret = session.get("api/9/execution/#{id}/output")
       result = ret['result']
       raise "API call not successful" unless result && result['success']=='true'
-
-      #sort the output by node
       ret = result['output'].slice(*%w(id completed hasFailedNodes))
-      ret['log'] = result['output']['entries']['entry'].group_by{|e| e['node']}
+      logs = result['output']['entries']['entry']
+      if logs.class == Array
+        logs = logs.group_by{|e| e['node']}
+      else
+        logs = {"localhost" => [logs]}
+      end
+      ret['log'] = logs
+      ret = [ret] if ret.class != Array
       ret
     end
 
     # http request are done at each loop so, be nice with interval :)
     def wait_end interval, timeout
       Timeout.timeout(timeout) do
-        until Execution::find(@session, @id).status != :running do
+          exec = Execution::find(@session, @id)
+        until exec.status != :running do
+          exec = Execution::find(@session, @id)
           sleep interval
         end
       end

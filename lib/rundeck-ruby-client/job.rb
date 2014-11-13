@@ -35,7 +35,7 @@ module Rundeck
 
     def execute!(args_hash)
       argstr=""
-      args_hash.map {|param, value| argstr += "-#{param} #{value} "}
+      args_hash.map {|param, value| argstr += "-#{param} \"#{value}\" "}
       encoded_args = URI::encode(argstr)
       query = "api/1/job/#{id}/run?argString=#{encoded_args}"
       hash = session.get(query, 'result', 'executions', 'execution') || {}
